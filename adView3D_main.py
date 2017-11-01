@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 def surface(x1, x2, y1, y2, z1, z2, xSum, ySum, zSum, res):
-    #
+    
     logRes = np.log10(res) / 3
     colVal = plt.get_cmap('jet_r')
 
@@ -37,14 +37,20 @@ def surface(x1, x2, y1, y2, z1, z2, xSum, ySum, zSum, res):
 
 def wireframe(x1, x2, y1, y2, z1, z2):
     #
-    ax.plot_wireframe(([x1, x1], [x2, x2]), ([y1, y2], [y1, y2]), ([z1, z1]), alpha=1, linewidth=1)
-    ax.plot_wireframe(([x1, x1], [x2, x2]), ([y1, y2], [y1, y2]), ([z2, z2]), alpha=1, linewidth=1)
+    if x1 == min(xSum):
+        ax.plot_wireframe(([x1, x1]), ([y1, y2], [y1, y2]), ([z1, z1], [z2, z2]), linewidth=1)
+    if x2 == max(xSum):
+        ax.plot_wireframe(([x2, x2]), ([y1, y2], [y1, y2]), ([z1, z1], [z2, z2]), linewidth=1)
 
-    ax.plot_wireframe(([x1, x1]), ([y1, y2], [y1, y2]), ([z1, z1], [z2, z2]), alpha=1, linewidth=1)
-    ax.plot_wireframe(([x2, x2]), ([y1, y2], [y1, y2]), ([z1, z1], [z2, z2]), alpha=1, linewidth=1)
+    if y1 == min(ySum):
+        ax.plot_wireframe(([x1, x2], [x1, x2]), ([y1, y1]), ([z1, z1], [z2, z2]), linewidth=1)
+    if y2 == max(ySum):
+        ax.plot_wireframe(([x1, x2], [x1, x2]), ([y2, y2]), ([z1, z1], [z2, z2]), linewidth=1)
 
-    ax.plot_wireframe(([x1, x2], [x1, x2]), ([y1, y1]), ([z1, z1], [z2, z2]), alpha=1, linewidth=1)
-    ax.plot_wireframe(([x1, x2], [x1, x2]), ([y2, y2]), ([z1, z1], [z2, z2]), alpha=1, linewidth=1)
+    if z1 == max(zSum):
+        ax.plot_wireframe(([x1, x1], [x2, x2]), ([y1, y2], [y1, y2]), ([z1, z1]), linewidth=1)
+    if z2 == min(zSum):
+        ax.plot_wireframe(([x1, x1], [x2, x2]), ([y1, y2], [y1, y2]), ([z2, z2]), linewidth=1)
 
 '''
 Main program starts from here
@@ -56,9 +62,11 @@ xStart = 0
 yStart = 0
 zStart = 0
 
-x = [100, 50 , 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 100]
-y = [100, 50 , 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 100]
-z = [10, 20, 30, 40 ,50 ,60]
+x = [100, 50 , 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 100]
+y = [100, 50 , 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 100]
+z = [10, 20, 30, 40, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180]
+
+
 z = np.multiply(z, -1)
 
 res = 10
@@ -86,8 +94,9 @@ for i in range(0, len(x)):
         z1 = zStart
         z2 = (z1 + z[0])
         for k in range(0, len(z)):
-            if x1 == min(xSum) or x2 == max(xSum) or y1 == min(ySum) or y2 == max(ySum) or z2 == min(zSum) or z1 == max(zSum):
+            if x1 == min(xSum) or x2 ==max(xSum) or y1 == min(ySum) or y2 ==max(ySum) or z2 == min(zSum) or z1 == max(zSum):
                 surface(x1, x2, y1, y2, z1, z2, xSum, ySum, zSum, res)
+                wireframe(x1, x2, y1, y2, z1, z2)
             if k < len(z) - 1:
                 z1 = z2
                 z2 = z1 + z[1 + k]
