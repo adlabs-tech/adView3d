@@ -1,117 +1,89 @@
-    import numpy as np
-    from matplotlib.colors import LogNorm
-    from mpl_toolkits.mplot3d import Axes3D, axes3d
-    from matplotlib import cm
-    import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
+from matplotlib import cm
+import numpy as np
 
 
-    def surface(x1, x2, y1, y2, z1, z2, xSum, ySum, zSum, res):
-        
-        logRes = np.log10(res) / 3
-        colVal = plt.get_cmap('jet_r')
+def plot_cuboid(center, xx, yy, zz):
+    ox, oy, oz = center
 
-        if x1 == min(xSum):
-            ax.plot_surface(([x1, x1]), ([y1, y2], [y1, y2]), ([z1, z1], [z2, z2]), linewidth=1,
-                            color=colVal(logRes),
-                            rstride=1, cstride=1, antialiased=False, shade=False)
-        if x2 == max(xSum):
-            ax.plot_surface(([x2, x2]), ([y1, y2], [y1, y2]), ([z1, z1], [z2, z2]), linewidth=1,
-                            color=colVal(logRes),
-                            rstride=1, cstride=1, antialiased=False, shade=False)
-        if y1 == min(ySum):
-            ax.plot_surface(([x1, x2], [x1, x2]), ([y1, y1]), ([z1, z1], [z2, z2]), linewidth=1,
-                            color=colVal(logRes),
-                            rstride=1, cstride=1, antialiased=False, shade=False)
-        if y2 == max(ySum):
-            ax.plot_surface(([x1, x2], [x1, x2]), ([y2, y2]), ([z1, z1], [z2, z2]), linewidth=1,
-                            color=colVal(logRes),
-                            rstride=1, cstride=1, antialiased=False, shade=False)
-        if z1 == max(zSum):
-            ax.plot_surface(([x1, x1], [x2, x2]), ([y1, y2], [y1, y2]), ([z1, z1]), linewidth=1,
-                            color=colVal(logRes),
-                            rstride=1, cstride=1, antialiased=False, shade=False)
-        if z2 == min(zSum):
-            ax.plot_surface(([x1, x1], [x2, x2]), ([y1, y2], [y1, y2]), ([z2, z2]), linewidth=1,
-                            color=colVal(logRes),
-                            rstride=1, cstride=1, antialiased=False, shade=False)
+    temp = 0
+    x = []
+    x.append(temp)
+    for i in range(0,len(xx)):
+    	temp += xx[i]
+    	x.append(temp)
 
-    def wireframe(x1, x2, y1, y2, z1, z2):
-        #
-        if x1 == min(xSum):
-            ax.plot_wireframe(([x1, x1]), ([y1, y2], [y1, y2]), ([z1, z1], [z2, z2]), linewidth=1)
-        if x2 == max(xSum):
-            ax.plot_wireframe(([x2, x2]), ([y1, y2], [y1, y2]), ([z1, z1], [z2, z2]), linewidth=1)
+    temp = 0
+    y = []
+    y.append(temp)
+    for i in range(0,len(yy)):
+    	temp += yy[i]
+    	y.append(temp)
 
-        if y1 == min(ySum):
-            ax.plot_wireframe(([x1, x2], [x1, x2]), ([y1, y1]), ([z1, z1], [z2, z2]), linewidth=1)
-        if y2 == max(ySum):
-            ax.plot_wireframe(([x1, x2], [x1, x2]), ([y2, y2]), ([z1, z1], [z2, z2]), linewidth=1)
+    temp = 0
+    z = []
+    z.append(temp)
+    for i in range(0,len(zz)):
+    	temp -= zz[i]
+    	z.append(temp)
 
-        if z1 == max(zSum):
-            ax.plot_wireframe(([x1, x1], [x2, x2]), ([y1, y2], [y1, y2]), ([z1, z1]), linewidth=1)
-        if z2 == min(zSum):
-            ax.plot_wireframe(([x1, x1], [x2, x2]), ([y1, y2], [y1, y2]), ([z2, z2]), linewidth=1)
 
-    '''
-    Main program starts from here
-    '''
+    x1, z1 = np.meshgrid(x, z)
+    y11 = np.zeros_like(x1)+(oy)
+    y12 = np.zeros_like(x1)+(oy+max(y))
+    x2, y2 = np.meshgrid(x, y)
+    z21 = np.zeros_like(x2)+(oz)
+    z22 = np.zeros_like(x2)+(oz+min(z))
+    y3, z3 = np.meshgrid(y, z)
+    x31 = np.zeros_like(y3)+(ox)
+    x32 = np.zeros_like(y3)+(ox+max(y))
+
+    res = 100
     resMin = 1
     resMax = 1000
 
-    xStart = 0
-    yStart = 0
-    zStart = 0
-
-    x = [100, 50 , 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 100]
-    y = [100, 50 , 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 100]
-    z = [10, 20, 30, 40, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180]
-
-
-    z = np.multiply(z, -1)
-
-    res = 10
-
-    xSum = [xStart, np.sum(x)]
-    ySum = [yStart, np.sum(y)]
-    zSum = [zStart, np.sum(z)]
-
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    ax = fig.gca(projection='3d')
 
     m = cm.ScalarMappable(cmap=cm.jet_r, norm=LogNorm())
     m.set_array([resMin, resMax])
-
-
     cbar = plt.colorbar(m, shrink=0.8, aspect=10)
     cbar.set_label('Resistivity', rotation=270)
+    logRes = np.log10(res) / 3
+    colVal = plt.get_cmap('jet_r')
 
-    x1 = xStart
-    x2 = x1 + x[0]
-    for i in range(0, len(x)):
-        y1 = yStart
-        y2 = y1 + y[0]
-        for j in range(0, len(y)):
-            z1 = zStart
-            z2 = (z1 + z[0])
-            for k in range(0, len(z)):
-                if x1 == min(xSum) or x2 ==max(xSum) or y1 == min(ySum) or y2 ==max(ySum) or z2 == min(zSum) or z1 == max(zSum):
-                    surface(x1, x2, y1, y2, z1, z2, xSum, ySum, zSum, res)
-                    wireframe(x1, x2, y1, y2, z1, z2)
-                if k < len(z) - 1:
-                    z1 = z2
-                    z2 = z1 + z[1 + k]
-            if j < len(y)-1:
-                y1 = y2
-                y2 = y1 + y[1+j]
-        if i < len(x)-1:
-            x1 = x2
-            x2 = x1 + x[1+i]
+    # outside surface
+    ax.plot_surface(x1, y11, z1, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    # inside surface
+    ax.plot_surface(x1, y12, z1, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    
+    # left surface
+    ax.plot_surface(x31, y3, z3, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    # right surface
+    ax.plot_surface(x32, y3, z3, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
 
+
+    # bottom surface
+    ax.plot_surface(x2, y2, z21, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    # upper surface
+    ax.plot_surface(x2, y2, z22, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    
     ax.set_xlabel('X')
-    # ax.set_xlim3d(0, 500)
     ax.set_ylabel('Y')
-    # ax.set_ylim3d(0, 500)
     ax.set_zlabel('Z')
-    # ax.set_zlim3d(-200, 0)
-
     plt.show()
+
+
+
+
+if __name__ == '__main__':
+
+    center = [0, 0, 0]
+
+    xx = [100, 50 , 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 100]
+    yy = [100, 50 , 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 50, 100]
+    zz = [10, 20, 30, 40, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180]
+
+    plot_cuboid(center, xx, yy, zz)
