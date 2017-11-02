@@ -51,24 +51,26 @@ def plot_cuboid(center, xx, yy, zz):
     m.set_array([resMin, resMax])
     cbar = plt.colorbar(m, shrink=0.8, aspect=10)
     cbar.set_label('Resistivity', rotation=270)
-    logRes = np.log10(res) / 3
+    logRes = np.log10(res) / (np.log10(resMax))
     colVal = plt.get_cmap('jet_r')
 
+    lWidth = 0.003
+
     # outside surface
-    ax.plot_surface(x1, y11, z1, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    ax.plot_surface(x1, y11, z1, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
     # inside surface
-    ax.plot_surface(x1, y12, z1, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    ax.plot_surface(x1, y12, z1, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
     
     # left surface
-    ax.plot_surface(x31, y3, z3, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    ax.plot_surface(x31, y3, z3, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
     # right surface
-    ax.plot_surface(x32, y3, z3, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    ax.plot_surface(x32, y3, z3, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
 
 
     # bottom surface
-    ax.plot_surface(x2, y2, z21, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    ax.plot_surface(x2, y2, z21, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
     # upper surface
-    ax.plot_surface(x2, y2, z22, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=0.09, edgecolors='tab:grey')
+    ax.plot_surface(x2, y2, z22, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
     
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
