@@ -113,8 +113,8 @@ if __name__ == '__main__':
 	resMin = 1
 	resMax = 1000
 
-	x = [1000, 500, 500, 1000]
-	y = [1000, 500, 500, 1000]
+	x = [100, 50, 50, 100]
+	y = [100, 50, 50, 100]
 	z = [10, 20, 30, 40]
 
 	setPlot(center, x, y, z, res, resMin, resMax)
