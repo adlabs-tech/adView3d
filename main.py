@@ -5,48 +5,59 @@ from matplotlib import cm
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_cub(center, xx, yy, zz, res, resMin, resMax):
+def calc(valval, code):
+
+    temp = 0
+    val = []
+    val.append(temp)
+    for i in range(0,len(valval)):
+        if code == 'z':
+            temp -= valval[i]
+            val.append(temp)
+        else:
+            temp += valval[i]
+            val.append(temp)
+
+    return val
+
+def calcMeshGrid(val_1, val_2, val_3, o, code):
+
+    temp_1, temp_2 = np.meshgrid(val_1, val_3)
+    temp_3 = np.zeros_like(temp_1) + (o)
+    if code == 'z':
+        temp_4 = np.zeros_like(temp_1) + (o + min(val_2))
+    else:
+        temp_4 = np.zeros_like(temp_1) + (o + max(val_2))
+
+    return temp_1, temp_2, temp_3, temp_4
+
+def plotCub(ax, val_1, val_2, val_3, colVal, logRes, lWidth=None):
+
+    ax.plot_surface(val_1, val_2, val_3, 
+        color=colVal(logRes), 
+        rstride=1, 
+        cstride=1, 
+        alpha=1, 
+        antialiased=False, 
+        shade=False, 
+        linewidth=lWidth, 
+        edgecolors='xkcd:black')
+
+def setPlot(center, xx, yy, zz, res, resMin, resMax):
+
     ox, oy, oz = center
 
-    temp = 0
-    x = []
-    x.append(temp)
-    for i in range(0,len(xx)):
-    	temp += xx[i]
-    	x.append(temp)
+    x = calc(xx,'x')
+    y = calc(yy,'y')
+    z = calc(zz,'z')
 
-    temp = 0
-    y = []
-    y.append(temp)
-    for i in range(0,len(yy)):
-    	temp += yy[i]
-    	y.append(temp)
+    y3, z3, x31, x32 = calcMeshGrid(y, x, z, ox, 'x')
+    x1, z1, y11, y12 = calcMeshGrid(x, y, z, oy, 'y')
+    x2, y2, z21, z22 = calcMeshGrid(x, z, y, oz, 'z')
 
-    temp = 0
-    z = []
-    z.append(temp)
-    for i in range(0,len(zz)):
-    	temp -= zz[i]
-    	z.append(temp)
-
-
-    x1, z1 = np.meshgrid(x, z)
-    y11 = np.zeros_like(x1)+(oy)
-    y12 = np.zeros_like(x1)+(oy+max(y))
-    x2, y2 = np.meshgrid(x, y)
-    z21 = np.zeros_like(x2)+(oz)
-    z22 = np.zeros_like(x2)+(oz+min(z))
-    y3, z3 = np.meshgrid(y, z)
-    x31 = np.zeros_like(y3)+(ox)
-    x32 = np.zeros_like(y3)+(ox+max(y))
-
-    #set resistivity value
-    
-
-
+ 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-
     m = cm.ScalarMappable(cmap=cm.jet_r, norm=LogNorm())
     m.set_array([resMin, resMax])
     cbar = plt.colorbar(m)
@@ -54,30 +65,23 @@ def plot_cub(center, xx, yy, zz, res, resMin, resMax):
     logRes = np.log10(res) / (np.log10(resMax))
     colVal = plt.get_cmap('jet_r')
 
-    #linewidth
-    lWidth = 0.003
+    # x
+    plotCub(ax, x31, y3, z3, colVal, logRes, 0)
+    plotCub(ax, x32, y3, z3, colVal, logRes, 0)
 
-    # outside surface
-    ax.plot_surface(x1, y11, z1, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
-    # inside surface
-    ax.plot_surface(x1, y12, z1, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
+    # y
+    plotCub(ax, x1, y11, z1, colVal, logRes, 0)
+    plotCub(ax, x1, y12, z1, colVal, logRes, 0)
     
-    # left surface
-    ax.plot_surface(x31, y3, z3, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
-    # right surface
-    ax.plot_surface(x32, y3, z3, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
-
-    # bottom surface
-    ax.plot_surface(x2, y2, z21, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
-    # upper surface
-    ax.plot_surface(x2, y2, z22, color=colVal(logRes), rstride=1, cstride=1, alpha=1, antialiased=False, shade=False, linewidth=lWidth, edgecolors='xkcd:black')
-    
-    # ax.set_aspect('equal')
-    
+    # z
+    plotCub(ax, x2, y2, z21, colVal, logRes, 0)
+    plotCub(ax, x2, y2, z22, colVal, logRes, 0)
+       
     # set axes name
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
+    ax.set_title('3D Resistivity Model')
     plt.show()
 
 def readFileElement(file):
@@ -113,4 +117,4 @@ if __name__ == '__main__':
 	y = [1000, 500, 500, 1000]
 	z = [10, 20, 30, 40]
 
-	plot_cub(center, x, y, z, res, resMin, resMax)
+	setPlot(center, x, y, z, res, resMin, resMax)
