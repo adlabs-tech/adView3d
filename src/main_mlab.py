@@ -114,7 +114,7 @@ def readFile(file):
 
 if __name__ == '__main__':
 
-	file = open('data/model.mod','r')
+	file = open('../data/model.mod','r')
 	x, y, z = readFile(file)
 
 	center = [0, 0, 0]
