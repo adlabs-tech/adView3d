@@ -1,11 +1,7 @@
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.colors import LogNorm
-from matplotlib import cm
-
+from modul_ModEM_dataFile import readModelFile
 from mayavi import mlab
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 def calc(valval, code):
 
@@ -35,10 +31,8 @@ def calcMeshGrid(val_1, val_2, val_3, o, code):
 
 def plotCub(val_1, val_2, val_3, res):
 
-    mlab.mesh(val_1, val_2, val_3, scalars=res, vmin=np.log10(1), vmax=np.log10(1000), colormap="jet", opacity=1)
-    mlab.mesh(val_1, val_2, val_3, representation='wireframe', line_width=1, colormap="jet")
-
-    print(len(val_2[0]))
+    mlab.mesh(val_1, val_2, val_3, vmin=np.log10(1), vmax=np.log10(1000), colormap="jet", opacity=1)
+    # mlab.mesh(val_1, val_2, val_3, representation='wireframe', line_width=1, colormap="jet")
 
 def setPlot(center, xx, yy, zz, res, resMin, resMax):
 
@@ -54,25 +48,18 @@ def setPlot(center, xx, yy, zz, res, resMin, resMax):
 
     res = np.full_like(z3, np.log10(500))
  
-
     # x
     plotCub(x31, y3, z3, res)
-    # plotCub(x32, y3, z3, res)
+    plotCub(x32, y3, z3, res)
 
     # y
-    # plotCub(x1, y11, z1, res)
-    # plotCub(x1, y12, z1, res)
+    plotCub(x1, y11, z1, res)
+    plotCub(x1, y12, z1, res)
     
     # z
-    # plotCub(x2, y2, z21, res)
-    # plotCub(x2, y2, z22, res)
+    plotCub(x2, y2, z21, res)
+    plotCub(x2, y2, z22, res)
        
-    # set axes name
-    # ax.set_xlabel('X')
-    # ax.set_ylabel('Y')
-    # ax.set_zlabel('Z')
-    # ax.set_title('3D Resistivity Model')
-    # plt.show()
     mlab.scalarbar(orientation='horizontal', title='Resistivity', nb_labels=4, label_fmt='%.0f')
     # mlab.colorbar(orientation='horizontal', title='Resistivity', nb_labels=5, label_fmt='%.0f')
     
@@ -80,28 +67,11 @@ def setPlot(center, xx, yy, zz, res, resMin, resMax):
     mlab.orientation_axes()
     mlab.show()
 
-def readFileElement(file):
-	temp = file.readline().split(' ')
-	temp = [x for x in temp if x != ''] #remove element '' in list temp
-	temp.remove('\n')
-	temp = [float(i) for i in temp] #convert a list containing string  to float
-
-	return temp
-
-def readFile(file):
-	temp = file.readline() #read 1st line
-	temp = file.readline() #read 2nd line - ignore it, will define using len
-	
-	x = readFileElement(file) #read 3rd line
-	y = readFileElement(file) #read 4th line
-	z = readFileElement(file) #read 5th line
-
-	return x, y, z
-
 if __name__ == '__main__':
 
-	file = open('../data/model.mod','r')
-	x, y, z = readFile(file)
+	file = '../data/model.mod'
+
+	nX, nY, nZ, x, y, z, array = readModelFile(file)
 
 	center = [0, 0, 0]
 

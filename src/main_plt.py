@@ -85,9 +85,7 @@ def setPlot(center, xx, yy, zz, res, resMin, resMax):
     plt.show()
 
 def readFileElement(file):
-	temp = file.readline().split(' ')
-	temp = [x for x in temp if x != ''] #remove element '' in list temp
-	temp.remove('\n')
+	temp = file.readline().split()
 	temp = [float(i) for i in temp] #convert a list containing string  to float
 
 	return temp
