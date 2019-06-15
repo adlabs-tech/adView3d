@@ -1,7 +1,11 @@
-# adView3d
+# RifLab Geophysical Framework (RGF)
 
-A Cubic 3D visualization 
+## About Us
+RifLab Geophysical Framework (RGF) is a Python framework for geophysical applications.
 
+author: arif.darmawan@riflab.com
+
+## Screenshot
 ![alt text](screenshot/mlab.png "Using mayavi")
 
 Using mayavi
@@ -10,5 +14,5 @@ Using mayavi
 
 Using matplotlib
 
-Next task:
+## Whats Next:
 1. Make every single cell have different value
