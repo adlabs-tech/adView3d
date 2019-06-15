@@ -1,9 +1,10 @@
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import LogNorm
 from matplotlib import cm
+import matplotlib.pyplot as plt
+from rgf_ModEM_dataFile import readModelFile
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 def calc(valval, code):
 
@@ -102,17 +103,18 @@ def readFile(file):
 
 if __name__ == '__main__':
 
-	file = open('../data/model.mod','r')
-	x, y, z = readFile(file)
+    file = '../data/model.mod'
 
-	center = [0, 0, 0]
+    nX, nY, nZ, x, y, z, array = readModelFile(file)
 
-	res = 100
-	resMin = 1
-	resMax = 1000
+    center = [0, 0, 0]
 
-	# x = [100, 50, 50, 100]
-	# y = [100, 50, 50, 100]
-	# z = [10, 20, 30, 40]
+    res = 100
+    resMin = 1
+    resMax = 1000
 
-	setPlot(center, x, y, z, res, resMin, resMax)
+    # x = [100, 50, 50, 100]
+    # y = [100, 50, 50, 100]
+    # z = [10, 20, 30, 40]
+
+    setPlot(center, x, y, z, res, resMin, resMax)

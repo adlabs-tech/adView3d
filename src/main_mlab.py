@@ -1,4 +1,4 @@
-from modul_ModEM_dataFile import readModelFile
+from rgf_ModEM_dataFile import readModelFile
 from mayavi import mlab
 
 import numpy as np
