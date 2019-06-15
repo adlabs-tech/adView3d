@@ -33,20 +33,12 @@ def calcMeshGrid(val_1, val_2, val_3, o, code):
 
     return temp_1, temp_2, temp_3, temp_4
 
-def plotCub(val_1, val_2, val_3):
+def plotCub(val_1, val_2, val_3, res):
 
-    mlab.mesh(val_1, val_2, val_3, colormap="jet")
+    mlab.mesh(val_1, val_2, val_3, scalars=res, vmin=np.log10(1), vmax=np.log10(1000), colormap="jet", opacity=1)
     mlab.mesh(val_1, val_2, val_3, representation='wireframe', line_width=1, colormap="jet")
 
-    # ax.plot_surface(val_1, val_2, val_3, 
-    #     color=colVal(logRes), 
-    #     rstride=1, 
-    #     cstride=1, 
-    #     alpha=1, 
-    #     antialiased=False, 
-    #     shade=False, 
-    #     linewidth=lWidth, 
-    #     edgecolors='xkcd:black')
+    print(len(val_2[0]))
 
 def setPlot(center, xx, yy, zz, res, resMin, resMax):
 
@@ -60,27 +52,20 @@ def setPlot(center, xx, yy, zz, res, resMin, resMax):
     x1, z1, y11, y12 = calcMeshGrid(x, y, z, oy, 'y')
     x2, y2, z21, z22 = calcMeshGrid(x, z, y, oz, 'z')
 
+    res = np.full_like(z3, np.log10(500))
  
-    # fig = plt.figure()
-    # ax = fig.gca(projection='3d')
-    # m = cm.ScalarMappable(cmap=cm.jet_r, norm=LogNorm())
-    # m.set_array([resMin, resMax])
-    # cbar = plt.colorbar(m)
-    # cbar.set_label('Resistivity', rotation=270)
-    # logRes = np.log10(res) / (np.log10(resMax))
-    # colVal = plt.get_cmap('jet_r')
 
     # x
-    plotCub(x31, y3, z3)
-    plotCub(x32, y3, z3)
+    plotCub(x31, y3, z3, res)
+    # plotCub(x32, y3, z3, res)
 
     # y
-    plotCub(x1, y11, z1)
-    plotCub(x1, y12, z1)
+    # plotCub(x1, y11, z1, res)
+    # plotCub(x1, y12, z1, res)
     
     # z
-    plotCub(x2, y2, z21)
-    plotCub(x2, y2, z22)
+    # plotCub(x2, y2, z21, res)
+    # plotCub(x2, y2, z22, res)
        
     # set axes name
     # ax.set_xlabel('X')
@@ -88,7 +73,8 @@ def setPlot(center, xx, yy, zz, res, resMin, resMax):
     # ax.set_zlabel('Z')
     # ax.set_title('3D Resistivity Model')
     # plt.show()
-    mlab.colorbar(orientation='vertical')
+    mlab.scalarbar(orientation='horizontal', title='Resistivity', nb_labels=4, label_fmt='%.0f')
+    # mlab.colorbar(orientation='horizontal', title='Resistivity', nb_labels=5, label_fmt='%.0f')
     
     mlab.axes()
     mlab.orientation_axes()

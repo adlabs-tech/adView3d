@@ -1,32 +1,27 @@
-import numpy as np
+#Minimum working example
+from numpy import array, sin, cos, mgrid, pi, sqrt
 from mayavi import mlab
 
+mlab.figure(fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
+u, v = mgrid[- 0.035:pi:0.01, - 0.035:pi:0.01]
 
-def test_mesh():
-    """A very pretty picture of spherical harmonics translated from
-    the octaviz example."""
-    pi = np.pi
-    cos = np.cos
-    sin = np.sin
-    dphi, dtheta = pi / 250.0, pi / 250.0
-    [phi, theta] = np.mgrid[0:pi + dphi * 1.5:dphi,
-                            0:2 * pi + dtheta * 1.5:dtheta]
-    m0 = 4
-    m1 = 3
-    m2 = 2
-    m3 = 3
-    m4 = 6
-    m5 = 2
-    m6 = 6
-    m7 = 4
-    r = sin(m0 * phi) ** m1 + cos(m2 * phi) ** m3 + \
-        sin(m4 * theta) ** m5 + cos(m6 * theta) ** m7
-    x = r * sin(phi) * cos(theta)
-    y = r * cos(phi)
-    z = r * sin(phi) * sin(theta)
+X = 2 / 3. * (cos(u) * cos(2 * v)
+    + sqrt(2) * sin(u) * cos(v)) * cos(u) / (sqrt(2) -
+                                             sin(2 * u) * sin(3 * v))
+Y = 2 / 3. * (cos(u) * sin(2 * v) -
+    sqrt(2) * sin(u) * sin(v)) * cos(u) / (sqrt(2)
+    - sin(2 * u) * sin(3 * v))
+Z = -sqrt(2) * cos(u) * cos(u) / (sqrt(2) - sin(2 * u) * sin(3 * v))
 
-    mlab.mesh(x, y, z, colormap="bone")
+for i in range(1,2):
+    S = Y
+    print(S)
+    _m = mlab.mesh(X, Y, Z, scalars=S, colormap='YlGnBu', )
+    mlab.view(.0, - 5.0, 4)
+    mlab.colorbar(orientation='vertical')
+    _m.module_manager.scalar_lut_manager.use_default_range = False
+    _m.module_manager.scalar_lut_manager.data_range = array([-1., 10.])
+    _m.module_manager.scalar_lut_manager.scalar_bar.position = array([ 0.01,  0.15])
+    _m.module_manager.scalar_lut_manager.scalar_bar.position2 = array([ 0.1,  0.8])
     mlab.show()
-
-
-test_mesh()
+    mlab.close(all=True)
