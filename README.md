@@ -2,7 +2,11 @@
 
 A Cubic 3D visualization 
 
-![alt text](screenshot/mlab.png "This is current screen shoot")
+![alt text](screenshot/mlab.png "Using mayavi")
+Using mayavi
 
-Next step:
-1. Make every 
+![alt text](screenshot/plt.png "Using matplotlib")
+Using matplotlib
+
+Next task:
+1. Make every single cell have different value
