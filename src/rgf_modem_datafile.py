@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
+'''
+rgf_ModEM_dataFile as a part of module from RifLab Geophysical Framework (RGF)
 
+This file is created for read/write files in ModEM data format. Futher information about
+ModEM see at http://www.modem-geophysics.com.
+
+'''
 import numpy as np
 
 def readModelFile(file):
@@ -37,9 +43,6 @@ def readModelFile(file):
     array = np.exp(array)
 
     return nX, nY, nZ, lX, lY, lZ, array
-
-def test(var):
-    return var*2
 
 if __name__ == '__main__':
 
