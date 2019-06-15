@@ -72,15 +72,15 @@ def setPlot(center, xx, yy, zz, res, resMin, resMax):
 
     # x
     plotCub(x31, y3, z3)
-    # plotCub(x32, y3, z3)
+    plotCub(x32, y3, z3)
 
     # y
     plotCub(x1, y11, z1)
-    # plotCub(x1, y12, z1)
+    plotCub(x1, y12, z1)
     
     # z
     plotCub(x2, y2, z21)
-    # plotCub(x2, y2, z22)
+    plotCub(x2, y2, z22)
        
     # set axes name
     # ax.set_xlabel('X')
@@ -123,8 +123,8 @@ if __name__ == '__main__':
 	resMin = 1
 	resMax = 1000
 
-	x = [100, 50, 50, 100]
-	y = [100, 50, 50, 100]
-	z = [10, 20, 30, 40]
+	# x = [100, 50, 50, 100]
+	# y = [100, 50, 50, 100]
+	# z = [10, 20, 30, 40]
 
 	setPlot(center, x, y, z, res, resMin, resMax)

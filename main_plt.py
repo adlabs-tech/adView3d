@@ -66,16 +66,16 @@ def setPlot(center, xx, yy, zz, res, resMin, resMax):
     colVal = plt.get_cmap('jet_r')
 
     # x
-    plotCub(ax, x31, y3, z3, colVal, logRes, 0)
-    plotCub(ax, x32, y3, z3, colVal, logRes, 0)
+    plotCub(ax, x31, y3, z3, colVal, logRes, 0.003)
+    plotCub(ax, x32, y3, z3, colVal, logRes, 0.003)
 
     # y
-    plotCub(ax, x1, y11, z1, colVal, logRes, 0)
-    plotCub(ax, x1, y12, z1, colVal, logRes, 0)
+    plotCub(ax, x1, y11, z1, colVal, logRes, 0.003)
+    plotCub(ax, x1, y12, z1, colVal, logRes, 0.003)
     
     # z
-    plotCub(ax, x2, y2, z21, colVal, logRes, 0)
-    plotCub(ax, x2, y2, z22, colVal, logRes, 0)
+    plotCub(ax, x2, y2, z21, colVal, logRes, 0.003)
+    plotCub(ax, x2, y2, z22, colVal, logRes, 0.003)
        
     # set axes name
     ax.set_xlabel('X')
@@ -113,8 +113,8 @@ if __name__ == '__main__':
 	resMin = 1
 	resMax = 1000
 
-	x = [100, 50, 50, 100]
-	y = [100, 50, 50, 100]
-	z = [10, 20, 30, 40]
+	# x = [100, 50, 50, 100]
+	# y = [100, 50, 50, 100]
+	# z = [10, 20, 30, 40]
 
 	setPlot(center, x, y, z, res, resMin, resMax)
