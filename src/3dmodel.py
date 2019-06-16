@@ -1,8 +1,6 @@
 from rgf_modem_datafile import readModelFile
 from rgf_plot import *
 
-from mayavi import mlab
-
 import numpy as np
 
 def calc(valval, code):
@@ -45,7 +43,7 @@ def setPlot(center, xx, yy, zz, res, resMin, resMax):
 
     res = np.full_like(z3, np.log10(500))
  
-    # plot3DCubMlab(y3, z3, x31, x32, x1, z1, y11, y12, x2, y2, z21, z22, res, resMin, resMax)
+    plot3DCubMlab(y3, z3, x31, x32, x1, z1, y11, y12, x2, y2, z21, z22, res, resMin, resMax)
     # plot3DCubPlt(y3, z3, x31, x32, x1, z1, y11, y12, x2, y2, z21, z22, 500, resMin, resMax)
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 import numpy as np 
 
-from mayavi import mlab
-
+from mayavi.mlab import mesh, scalarbar, axes, orientation_axes
+from mayavi.mlab import show as mshow
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import LogNorm
 from matplotlib import cm
@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 
 def local_plot3DCubMlab(val_1, val_2, val_3, res, resMin, resMax):
 
-    mlab.mesh(val_1, val_2, val_3, vmin=np.log10(resMin), vmax=np.log10(resMax), colormap="jet", opacity=1)
-    # mlab.mesh(val_1, val_2, val_3, representation='wireframe', line_width=1, colormap="jet")
+    mesh(val_1, val_2, val_3, vmin=np.log10(resMin), vmax=np.log10(resMax), colormap="jet", opacity=1)
+    # mesh(val_1, val_2, val_3, representation='wireframe', line_width=1, colormap="jet")
 
 def plot3DCubMlab(y3, z3, x31, x32, x1, z1, y11, y12, x2, y2, z21, z22, res, resMin, resMax):
 	# x
@@ -25,12 +25,12 @@ def plot3DCubMlab(y3, z3, x31, x32, x1, z1, y11, y12, x2, y2, z21, z22, res, res
     local_plot3DCubMlab(x2, y2, z21, res, resMin, resMax)
     local_plot3DCubMlab(x2, y2, z22, res, resMin, resMax)
        
-    mlab.scalarbar(orientation='horizontal', title='Resistivity', nb_labels=4, label_fmt='%.0f')
+    scalarbar(orientation='horizontal', title='Resistivity', nb_labels=4, label_fmt='%.0f')
     # mlab.colorbar(orientation='horizontal', title='Resistivity', nb_labels=5, label_fmt='%.0f')
     
-    mlab.axes()
-    mlab.orientation_axes()
-    mlab.show()
+    axes()
+    orientation_axes()
+    mshow()
 
 def local_plot3DCubPlt(ax, val_1, val_2, val_3, colVal, logRes, lWidth=None):
 

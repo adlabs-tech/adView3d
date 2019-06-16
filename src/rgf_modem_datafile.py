@@ -5,6 +5,8 @@ rgf_ModEM_dataFile as a part of module from RifLab Geophysical Framework (RGF)
 This file is created for read/write files in ModEM data format. Futher information about
 ModEM see at http://www.modem-geophysics.com.
 
+author: arif.darmawan@riflab.com
+
 '''
 import numpy as np
 
